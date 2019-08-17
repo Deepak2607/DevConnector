@@ -3,7 +3,7 @@ const router= express.Router();
 
 
 router.get('/',(req,res)=>{
-    res.send("auth works");
+    res.send(`${req.isAuthenticated()}`);
 })
 
 module.exports= router;

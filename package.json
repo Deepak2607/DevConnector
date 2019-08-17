@@ -5,18 +5,25 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-     "server": "nodemon app"
+    "server": "nodemon app"
   },
   "author": "DEEPAK KUMRAWAT",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "config": "^3.2.2",
+    "connect-flash": "^0.1.1",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.5",
+    "express-session": "^1.16.2",
     "express-validator": "^6.1.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "mongoose": "^5.6.9",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "request": "^2.88.0"
   },
   "devDependencies": {

@@ -1,15 +1,41 @@
 const express= require("express");
 const bcrypt = require('bcryptjs');
 const gravatar= require('gravatar');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const router= express.Router();
 const {User}= require('../../models/User');
 
 
-router.get('/',(req,res)=>{
-    res.send("users works");
+const isNotAuthenticated= (req,res,next)=> {
+    if(! req.isAuthenticated()){
+        next();
+    }else{
+        res.send('You need to logout first');
+    }
+}
+
+const isAuthenticated= (req,res,next)=> {
+    if(req.isAuthenticated()){
+        next();
+    }else{
+        res.send('You need to logout first');
+    }
+}
+
+
+router.get('/login',isNotAuthenticated, (req,res)=> {
+
+    res.send('login page');
 })
 
-router.post('/',(req,res)=>{
+router.get('/register',isNotAuthenticated, (req,res)=> {
+    res.send('register page');
+})
+
+
+router.post('/register',(req,res)=>{
     
     let errors=[];
     let isEmail=  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email);
@@ -68,10 +94,62 @@ router.post('/',(req,res)=>{
               });
             }
         })
-    }   
-    
-
-    
+    }     
 })
+
+
+
+
+passport.use(new LocalStrategy({usernameField: 'email'},
+  (email, password, done)=> {
+    
+    User.findOne({email:email}).then((user)=> {
+        
+      if (!user) {
+        return done(null, false);
+      }
+        
+        bcrypt.compare(password, user.password,(err, matched)=> {
+            
+                if(matched){
+                    return done(null, user);
+                }
+                else{
+                    return done(null, false);
+                }
+        });
+    })
+   }
+));
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+
+router.post('/login',
+  passport.authenticate('local'
+                        , {successRedirect: '/auth',
+                          failureRedirect: '/users/login',
+                          failureFlash: 'Invalid username or password.',
+                          successFlash: 'Welcome!'}
+                       ));
+
+
+router.get('/logout',(req, res)=>{
+  req.logout();
+  res.redirect('/users/login');
+});
+
+
+
+
+
 
 module.exports= router;
