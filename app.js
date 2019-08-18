@@ -80,5 +80,5 @@ app.use('/profile',profile);
 
 
 app.listen(PORT, ()=> {
-    console.log(`Server started on port ${PORT}`);
+    console.log(`Server started on port no. ${PORT}`);
 })
