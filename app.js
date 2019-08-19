@@ -76,9 +76,9 @@ app.use(passport.session());
 app.use('/users',users);
 app.use('/auth',auth);
 app.use('/posts',posts);
-app.use('/profile',profile);
+app.use('/profiles',profile);
 
 
 app.listen(PORT, ()=> {
-    console.log(`Server started on port no. ${PORT}`);
+    console.log(`Server started on port ${PORT}`);
 })
