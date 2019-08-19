@@ -101,11 +101,13 @@ router.post('/create',isAuthenticated,(req, res) => {
       status,
       githubusername,
       skills,
+      
+      //social
       youtube,
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,    
     } = req.body;
     
     
@@ -135,7 +137,8 @@ router.post('/create',isAuthenticated,(req, res) => {
             if (facebook) profileFields.social.facebook = facebook;
             if (linkedin) profileFields.social.linkedin = linkedin;
             if (instagram) profileFields.social.instagram = instagram;
-
+            
+            
             const profile= new Profile(profileFields);
 
             profile.save().then(profile=> {
@@ -178,11 +181,13 @@ router.put('/edit_profile',isAuthenticated,(req,res)=>{
       status,
       githubusername,
       skills,
+      
+      //social
       youtube,
       facebook,
       twitter,
       instagram,
-      linkedin
+      linkedin,
     } = req.body;
     
     
@@ -206,7 +211,7 @@ router.put('/edit_profile',isAuthenticated,(req,res)=>{
     if (facebook) profileFields.social.facebook = facebook;
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
-
+    
     
     Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{new:true}).populate('user').then((profile)=> {
         
@@ -234,6 +239,79 @@ router.delete('/delete',isAuthenticated,(req,res)=> {
 
 
 
+router.put('/experience',isAuthenticated, (req, res) => {
+   
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    let new_experience = {};
+    if (title) new_experience.title = title;
+    if (company) new_experience.company = company;
+    if (location) new_experience.location = location;
+    if (from) new_experience.from = from;
+    if (to) new_experience.to = to; 
+    if (current) new_experience.current = current;
+    if (description) new_experience.description = description; 
+    
+
+    Profile.findOne({ user: req.user.id }).then((profile)=> {
+        
+        profile.experience.unshift(new_experience);
+        
+        profile.save().then(profile=> {
+         res.send(profile);
+        }).catch(err=>{
+            console.log(err);
+            res.status(500).send("Server error");
+        })
+        
+    })    
+});
+
+
+
+router.put('/education',isAuthenticated, (req, res) =>{
+   
+    const {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description
+    } = req.body;
+
+    let new_education = {};
+    if (school) new_education.school = school;
+    if (degree) new_education.degree = degree;
+    if (fieldofstudy) new_education.fieldofstudy = fieldofstudy;
+    if (from) new_education.from = from;
+    if (to) new_education.to = to;
+    if (current) new_education.current = current;
+    if (description) new_education.description = description;
+
+      
+    Profile.findOne({ user: req.user.id }).then((profile)=> {
+        
+        profile.education.unshift(new_education);
+        
+        profile.save().then(profile=> {
+         res.send(profile);
+        }).catch(err=>{
+            console.log(err);
+            res.status(500).send("Server error");
+        })
+        
+    })     
+ });
 
 
 
