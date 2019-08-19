@@ -277,10 +277,10 @@ router.put('/experience',isAuthenticated, (req, res) => {
 
 
 
-router.put('/education',isAuthenticated, (req, res) =>{
+router.put('/education',isAuthenticated,(req, res) =>{
    
     const {
-      school,
+      college,
       degree,
       fieldofstudy,
       from,
@@ -290,7 +290,7 @@ router.put('/education',isAuthenticated, (req, res) =>{
     } = req.body;
 
     let new_education = {};
-    if (school) new_education.school = school;
+    if (college) new_education.college = college;
     if (degree) new_education.degree = degree;
     if (fieldofstudy) new_education.fieldofstudy = fieldofstudy;
     if (from) new_education.from = from;
