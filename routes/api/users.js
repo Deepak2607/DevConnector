@@ -20,7 +20,7 @@ const isAuthenticated= (req,res,next)=> {
     if(req.isAuthenticated()){
         next();
     }else{
-        res.send('You need to logout first');
+        res.send('You need to login first');
     }
 }
 

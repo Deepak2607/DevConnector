@@ -22,9 +22,26 @@ const isAuthenticated= (req,res,next)=> {
 }
 
 
-router.get('/profile/:id',isAuthenticated,(req,res)=>{
+
+//getting all profiles
+router.get('/',(req,res)=> {
     
-    Profile.findById(req.params.id).populate('users').then((profile)=> {
+    Profile.find().populate('user').then((profiles)=> {
+        
+        res.send(profiles);
+        
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("Server error");
+    }) 
+})
+
+
+
+//profile of me
+router.get('/my_profile',isAuthenticated,(req,res)=>{
+    
+    Profile.findOne({user:req.user.id}).populate('user').then((profile)=> {
         
         if(profile){
             res.send(profile);
@@ -37,33 +54,30 @@ router.get('/profile/:id',isAuthenticated,(req,res)=>{
     });    
 })
 
-//
-//router.post('/',(req,res)=> {
-//    
-////    let errors= [];
-////    if(!req.body.company){
-////        errors.push({message:'Enter name'});
-////    }
-////    if(!req.body.website){
-////        errors.push({message:'Enter email'});
-////    }  
-////    if(!req.body.location){
-////        errors.push({message:'Invalid email'});
-////    }
-////    if(!req.body.status){
-////        errors.push({message:'Enter password'});
-////    }
-//    
-//    res.send(req.body);
-//   
-//    
-//    
-//})
 
 
+//profile of each user by using profile_id
+router.get('/user/:id',isAuthenticated,(req,res)=>{
+    
+    Profile.findById(req.params.id).populate('user').then((profile)=> {
+        
+        if(profile){
+            res.send(profile);
+        }else{
+            res.send(`user needs to create your profile`);
+        }
+    }).catch((err)=> {
+        console.log(err);
+        res.send("Server error");
+    });    
+})
+
+
+
+//creating my profile..UI
 router.get('/create',isAuthenticated,(req,res)=>{
     
-       Profile.findOne({user:req.user.id}).populate('users').then((profile)=> {
+       Profile.findOne({user:req.user.id}).populate('user').then((profile)=> {
         
             if(profile){
                 res.send(`Hello ${req.user.name}, your profile already exists.`);
@@ -76,6 +90,7 @@ router.get('/create',isAuthenticated,(req,res)=>{
 
 
 
+//creating my profile..POST request
 router.post('/create',isAuthenticated,(req, res) => {
 
     const {
@@ -94,7 +109,7 @@ router.post('/create',isAuthenticated,(req, res) => {
     } = req.body;
     
     
-    Profile.findOne({user:req.user.id}).populate('users').then((profile)=> {
+    Profile.findOne({user:req.user.id}).populate('user').then((profile)=> {
         
         if(profile){
             res.send(`Hello ${req.user.name}, your profile already exists.`);
@@ -135,9 +150,11 @@ router.post('/create',isAuthenticated,(req, res) => {
 );
 
 
-router.get('/edit/:id',isAuthenticated,(req,res)=>{
+
+//editing my profile..UI
+router.get('/edit_profile',isAuthenticated,(req,res)=>{
     
-    Profile.findById(req.params.id).populate('users').then((profile)=> {
+    Profile.findOne({user:req.user.id}).populate('user').then((profile)=> {
         
         if(!profile){
             res.send(`Hello ${req.user.name}, you need to create your profile first.`);
@@ -149,7 +166,9 @@ router.get('/edit/:id',isAuthenticated,(req,res)=>{
 });
 
 
-router.put('/edit/:id',(req,res)=>{
+
+//editing my profile..PUT request
+router.put('/edit_profile',isAuthenticated,(req,res)=>{
     
      const {
       company,
@@ -189,7 +208,7 @@ router.put('/edit/:id',(req,res)=>{
     if (instagram) profileFields.social.instagram = instagram;
 
     
-    Profile.findByIdAndUpdate(req.params.id,{$set:profileFields},{new:true}).populate('users').then((profile)=> {
+    Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{new:true}).populate('user').then((profile)=> {
         
         res.send(profile);
         }).catch(err=>{
@@ -200,16 +219,17 @@ router.put('/edit/:id',(req,res)=>{
 })
 
 
-router.get('/',(req,res)=> {
+
+//deleting my profile
+router.delete('/delete',isAuthenticated,(req,res)=> {
     
-    Profile.find().populate('users').then((profiles)=> {
+    Profile.findOneAndRemove({user:req.user.id}).then(()=> {
         
-        res.send(profiles);
-        
-    }).catch(err=>{
-        console.log(err);
-        res.status(500).send("Server error");
-    }) 
+        User.findByIdAndRemove(req.user.id).then((user)=> {
+            
+            res.send(`yours (${user.name}'s) account is deleted`);
+        })
+    })
 })
 
 
