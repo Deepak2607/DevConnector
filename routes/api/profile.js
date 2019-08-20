@@ -24,7 +24,7 @@ const isAuthenticated= (req,res,next)=> {
 
 
 //getting all profiles
-router.get('/',(req,res)=> {
+router.get('/',isAuthenticated,(req,res)=> {
     
     Profile.find().populate('user').then((profiles)=> {
         
@@ -64,7 +64,7 @@ router.get('/user/:id',isAuthenticated,(req,res)=>{
         if(profile){
             res.send(profile);
         }else{
-            res.send(`user needs to create your profile`);
+            res.send(`user needs to create his/her profile`);
         }
     }).catch((err)=> {
         console.log(err);
@@ -312,6 +312,46 @@ router.put('/education',isAuthenticated,(req, res) =>{
         
     })     
  });
+
+
+
+router.delete('/experience/:exp_id',isAuthenticated,(req, res) => {
+  
+    Profile.findOne({ user: req.user.id }).then(profile =>{
+            
+        profile.experience.forEach(experience => {
+            if(experience.id===req.params.exp_id){
+                profile.experience.splice(experience.id, 1);
+            }
+        })
+    
+        profile.save().then(()=> {  
+            res.send(profile);
+        }).catch(err=> {
+            console.log(err);
+            res.send("Server error");
+        })
+    })
+})
+
+
+router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
+  
+    Profile.findOne({ user: req.user.id }).then(profile =>{
+            
+        let educationlist_updated= profile.education.filter(education => {
+            return (education.id!==req.params.edu_id); 
+        })
+        profile.education= educationlist_updated;
+    
+        profile.save().then(()=> {  
+            res.send(profile);
+        }).catch(err=> {
+            console.log(err);
+            res.send("Server error");
+        })
+    })
+})
 
 
 
