@@ -1,8 +1,9 @@
 const express= require("express");
+const request= require("request");
+const axios= require("axios");
 const {Profile}= require("../../models/Profile");
 const {User}= require('../../models/User');
 const router= express.Router();
-
 
 
 const isNotAuthenticated= (req,res,next)=> {
@@ -61,12 +62,15 @@ router.get('/user/:id',isAuthenticated,(req,res)=>{
     
     Profile.findById(req.params.id).populate('user').then((profile)=> {
         
-        if(profile){
-            res.send(profile);
-        }else{
-            res.send(`user needs to create his/her profile`);
+        if(!profile){
+            res.send("profile not found");   
         }
+        res.send(profile);
+        
     }).catch((err)=> {
+        if(err.kind=="ObjectId"){
+            return res.status(404).send("profile not found");
+        }
         console.log(err);
         res.send("Server error");
     });    
@@ -111,46 +115,37 @@ router.post('/create',isAuthenticated,(req, res) => {
     } = req.body;
     
     
-    Profile.findOne({user:req.user.id}).populate('user').then((profile)=> {
-        
-        if(profile){
-            res.send(`Hello ${req.user.name}, your profile already exists.`);
-        }
-        else{
-            // Build profile object
-            const profileFields = {};
-            profileFields.user = req.user.id;
-            if (company) profileFields.company = company;
-            if (website) profileFields.website = website;
-            if (location) profileFields.location = location;
-            if (bio) profileFields.bio = bio;
-            if (status) profileFields.status = status;
-            if (githubusername) profileFields.githubusername = githubusername;
-            if (skills) {
-              profileFields.skills = skills.split(',').map(skill => skill.trim());
-            }
+    // Build profile object
+    const profileFields = {};
+    profileFields.user = req.user.id;
+    if (company) profileFields.company = company;
+    if (website) profileFields.website = website;
+    if (location) profileFields.location = location;
+    if (bio) profileFields.bio = bio;
+    if (status) profileFields.status = status;
+    if (githubusername) profileFields.githubusername = githubusername;
+    if (skills) {
+      profileFields.skills = skills.split(',').map(skill => skill.trim());
+    }
 
-            // Build social object (inside profile object)
-            profileFields.social = {};
-            if (youtube) profileFields.social.youtube = youtube;
-            if (twitter) profileFields.social.twitter = twitter;
-            if (facebook) profileFields.social.facebook = facebook;
-            if (linkedin) profileFields.social.linkedin = linkedin;
-            if (instagram) profileFields.social.instagram = instagram;
-            
-            
-            const profile= new Profile(profileFields);
+    // Build social object (inside profile object)
+    profileFields.social = {};
+    if (youtube) profileFields.social.youtube = youtube;
+    if (twitter) profileFields.social.twitter = twitter;
+    if (facebook) profileFields.social.facebook = facebook;
+    if (linkedin) profileFields.social.linkedin = linkedin;
+    if (instagram) profileFields.social.instagram = instagram;
 
-            profile.save().then(profile=> {
-                 res.send(profile);
-            }).catch(err=>{
-                console.log(err);
-                res.status(500).send("Server error");
-            })
-        }
-    })  
-  }
-);
+
+    const profile= new Profile(profileFields);
+
+    profile.save().then(profile=> {
+         res.send(profile);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("Server error");
+    })
+});
 
 
 
@@ -352,6 +347,29 @@ router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
         })
     })
 })
+
+
+router.get('/github/:username', (req, res) => {
+
+    const clientId= 'Iv1.06a4619e1629aa2f';
+    const clientSecret= 'f56bf99620e07c8421e6dc79322807786edf73c2';
+    
+    const options = {
+      uri: `https://api.github.com/users/${req.params.username}/repos? 
+per_page=5&sort=created:asc&client_id=${clientId}&client_secret=${clientSecret}`,
+      method: 'GET',
+      headers: { 'user-agent': 'node.js' }
+    };
+
+    request(options, (error, response, body) => {
+      if (error) console.error(error);
+
+      if (response.statusCode !== 200) {
+        return res.status(404).json({ msg: 'No Github profile found' });
+      }
+      res.json(JSON.parse(body));
+    });
+});
 
 
 
