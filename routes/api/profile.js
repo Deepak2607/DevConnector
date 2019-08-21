@@ -63,15 +63,15 @@ router.get('/user/:id',isAuthenticated,(req,res)=>{
     Profile.findById(req.params.id).populate('user').then((profile)=> {
         
         if(!profile){
-            res.send("profile not found");   
+            return res.status(404).send("profile not found");   
         }
         res.send(profile);
         
     }).catch((err)=> {
+        console.log(err);
         if(err.kind=="ObjectId"){
             return res.status(404).send("profile not found");
         }
-        console.log(err);
         res.send("Server error");
     });    
 })
@@ -220,20 +220,21 @@ router.put('/edit_profile',isAuthenticated,(req,res)=>{
 
 
 
-//deleting my profile
+//deleting my profile (and account also) 
 router.delete('/delete',isAuthenticated,(req,res)=> {
     
     Profile.findOneAndRemove({user:req.user.id}).then(()=> {
         
         User.findByIdAndRemove(req.user.id).then((user)=> {
             
-            res.send(`yours (${user.name}'s) account is deleted`);
+            res.send(`yours (${user.name}'s) profile and account are deleted`);
         })
     })
 })
 
 
 
+//adding eperience in my profile
 router.put('/experience',isAuthenticated, (req, res) => {
    
     const {
@@ -271,7 +272,7 @@ router.put('/experience',isAuthenticated, (req, res) => {
 });
 
 
-
+//adding education in my profile
 router.put('/education',isAuthenticated,(req, res) =>{
    
     const {
@@ -309,7 +310,7 @@ router.put('/education',isAuthenticated,(req, res) =>{
  });
 
 
-
+//delete an experience from my profile (using experience_id)
 router.delete('/experience/:exp_id',isAuthenticated,(req, res) => {
   
     Profile.findOne({ user: req.user.id }).then(profile =>{
@@ -330,6 +331,8 @@ router.delete('/experience/:exp_id',isAuthenticated,(req, res) => {
 })
 
 
+
+//delete an education from my profile (using education_id)
 router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
   
     Profile.findOne({ user: req.user.id }).then(profile =>{
@@ -349,6 +352,7 @@ router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
 })
 
 
+//getting any user's github repos
 router.get('/github/:username', (req, res) => {
 
     const clientId= 'Iv1.06a4619e1629aa2f';

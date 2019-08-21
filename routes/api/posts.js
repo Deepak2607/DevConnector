@@ -23,6 +23,7 @@ const isAuthenticated= (req,res,next)=> {
 }
 
 
+//getting all posts (from all users)
 router.get('/',isAuthenticated ,(req,res)=>{
     
     Post.find().sort({date:-1}).then(posts=> {
@@ -35,7 +36,7 @@ router.get('/',isAuthenticated ,(req,res)=>{
 })
 
 
-
+//getting a specific post (using post_id)
 router.get('/:id',isAuthenticated ,(req,res)=>{
     
     Post.findById(req.params.id).then(post=> {
@@ -56,6 +57,7 @@ router.get('/:id',isAuthenticated ,(req,res)=>{
 })
 
 
+//deleting my post using post_id (can not others)
 router.delete('/:id',isAuthenticated ,(req,res)=>{
     
     Post.findById(req.params.id).then(post=> {
@@ -82,6 +84,8 @@ router.delete('/:id',isAuthenticated ,(req,res)=>{
 })
 
 
+
+//creating a post
 router.post('/',isAuthenticated ,(req,res)=>{
     
     User.findById(req.user.id).then(user=> {
@@ -99,6 +103,98 @@ router.post('/',isAuthenticated ,(req,res)=>{
             console.log(err);
             res.status(500).send("Server error");
         })
+    })
+})
+
+
+//like/unlike to a post (id is post_id)
+router.put('/likes/:id',isAuthenticated,(req,res)=> {
+    
+    Post.findById(req.params.id).then(post=> {
+        
+        let flag=0;
+        post.likes.forEach(like=> {
+            if(like.user.toString() === req.user.id){
+                post.likes.splice(like._id,1);
+                flag=1;
+            }
+        })
+        
+        if(flag==0){
+            post.likes.unshift({user:req.user.id});
+        }
+        
+        post.save().then(post=> {
+            res.send(post.likes);
+        }).catch(err=> {
+            console.log(err);
+            res.status(500).send("server error");
+        })
+        
+        
+    })
+})
+
+
+//comment to a post (id is post_id)
+router.post('/comment/:id',isAuthenticated,(req,res)=> {
+    
+    Post.findById(req.params.id).then(post=> {
+        
+        User.findById(req.user.id).then(user=> {
+            
+            let comment= {
+                user:req.user.id,
+                text:req.body.text,
+                name:user.name,
+                avatar:user.avatar        
+            }
+
+            post.comments.unshift(comment);
+            post.save().then(post=> {
+                res.send(post.comments);
+            }).catch(err=> {
+                console.log(err);
+                res.status(500).send("server error");
+            })
+            
+        })
+    })
+})
+
+
+//deleting a comment (post_id, comment_id)
+router.delete('/comment/:id/:cmt_id',isAuthenticated,(req,res)=> {
+    
+    Post.findById(req.params.id).then(post=> {
+           
+        let flag,removeIndex;
+        post.comments.forEach(comment=> {
+            if(comment.id === req.params.cmt_id && req.user.id === comment.user.toString()){
+                flag=1;
+                removeIndex=req.user.id;
+            }
+            else if(comment.id === req.params.cmt_id && req.user.id !== comment.user.toString()){
+                flag=0;      
+            }                      
+        })
+        
+        
+        if(flag!=1 && flag!=0){
+            return res.send("comment not found");
+        }
+        if(flag==0){
+            return res.send("you are not authorised to delete this comment");
+        }
+        
+        post.comments.splice(removeIndex,1);
+        post.save().then(post=> {
+            res.send(post.comments);
+        }).catch(err=> {
+            console.log(err);
+            res.status(500).send("server error");
+        })
+        
     })
 })
 
