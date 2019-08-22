@@ -2,3 +2,5 @@ middlewares
 validations in routes
 problem in adding experience and education
 routes comments
+revise react understand the basic structures of react apps (using routing and redux)
+class-> className

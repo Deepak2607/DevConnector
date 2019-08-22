@@ -176,10 +176,9 @@ router.delete('/comment/:id/:cmt_id',isAuthenticated,(req,res)=> {
             }
             else if(comment.id === req.params.cmt_id && req.user.id !== comment.user.toString()){
                 flag=0;      
-            }                      
+            } 
         })
-        
-        
+            
         if(flag!=1 && flag!=0){
             return res.send("comment not found");
         }

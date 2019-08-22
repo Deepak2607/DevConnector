@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "server": "nodemon app"
+    "server": "nodemon app",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+      
   },
   "author": "DEEPAK KUMRAWAT",
   "license": "MIT",
