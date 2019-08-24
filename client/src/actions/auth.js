@@ -19,7 +19,10 @@ export const register= (user)=> dispatch =>{
         })
     }).catch(err=> {
         console.log(err.response.data);
-        setAlert(err.response.data.message,"danger");
+        let errors= err.response.data;
+        errors.forEach(error=> {
+            dispatch(setAlert(error.message,"danger"));
+        })
         dispatch({
             type:REGISTER_FAILURE
         })

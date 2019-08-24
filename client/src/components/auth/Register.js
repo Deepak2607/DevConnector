@@ -55,6 +55,12 @@ class Register extends Component{
             
             if(this.state.password !== this.state.confirmPassword){
                 this.props.setAlert("passwords not matching",'danger');
+                this.setState({
+                    name:"",
+                    email:"",
+                    password:"",
+                    confirmPassword:"",
+                })
                 return;
             }
             
@@ -105,10 +111,10 @@ render(){
           <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
           <form className="form" onSubmit={this.handleSubmit}>
             <div className="form-group">
-              <input type="text" placeholder="Name" name="name" onChange={this.handleName} value={this.state.name} required />
+              <input type="text" placeholder="Name" name="name" onChange={this.handleName} value={this.state.name} />
             </div>
             <div className="form-group">
-              <input type="email" placeholder="Email Address" name="email" onChange={this.handleEmail} value={this.state.email} required />
+              <input type="email" placeholder="Email Address" name="email" onChange={this.handleEmail} value={this.state.email}  />
               <small className="form-text"
                 >This site uses Gravatar so if you want a profile image, use a
                 Gravatar email</small
@@ -119,7 +125,7 @@ render(){
                 type="password"
                 placeholder="Password"
                 name="password"
-                minLength="6"
+              
                 onChange={this.handlePassword}
                 value={this.state.password}
               />
@@ -129,7 +135,7 @@ render(){
                 type="password"
                 placeholder="Confirm Password"
                 name="password2"
-                minLength="6"
+                
                 onChange={this.handleConfirmPassword}
                 value={this.state.confirmPassword}
               />
