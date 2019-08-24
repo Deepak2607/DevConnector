@@ -1,4 +1,5 @@
 import {REGISTER_SUCCESS, REGISTER_FAILURE} from './types';
+import {setAlert }from './alert';
 import axios from 'axios';
 
 
@@ -17,7 +18,8 @@ export const register= (user)=> dispatch =>{
             type:REGISTER_SUCCESS
         })
     }).catch(err=> {
-        console.log(err);
+        console.log(err.response.data);
+        setAlert(err.response.data.message,"danger");
         dispatch({
             type:REGISTER_FAILURE
         })
