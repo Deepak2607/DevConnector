@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
+//importing actions
+import {register} from '../../actions/auth';
+import {setAlert} from '../../actions/alert';
+
 
 class Register extends Component{
     
@@ -9,8 +16,11 @@ class Register extends Component{
             email:"",
             password:"",
             confirmPassword:"",
-            users:[]
         }
+        
+        //this input data doesn't have any use, so it is not included into redux
+        //all the useful data is only..the data saved in database, so they are included in redux
+        //and can be accessed anywhere
         
         this.handleName=(event)=> {
             
@@ -44,16 +54,30 @@ class Register extends Component{
             event.preventDefault();
             
             if(this.state.password !== this.state.confirmPassword){
-                alert("passwords not matching");
+                this.props.setAlert("passwords not matching",'danger');
                 return;
             }
             
             const user={
-                name:this.state.name,
-                email:this.state.email,
-                password:this.state.password,
-                confirmPassword:this.state.confirmPassword
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password,
             }
+            
+            this.props.register(user);
+            
+//            const config= {
+//                headers:{
+//                    'Content-Type':'application/json'
+//                }
+//            }
+//            const body= JSON.stringify(user);
+//            
+//            axios.post('/users/register',body, config).then((response)=> {
+//                console.log(response);
+//            }).catch(err=> {
+//                console.log(err);
+//            })
             
             this.setState({
                 name:"",
@@ -61,9 +85,6 @@ class Register extends Component{
                 password:"",
                 confirmPassword:"",
             })
-            
-            console.log(user);
-                    
         }
     }
     
@@ -72,6 +93,11 @@ class Register extends Component{
 
 render(){
     
+    
+    if (this.props.isRegistered) {
+        return <Redirect to='/login' />;
+      }
+  
     return(
     
         <div>
@@ -111,11 +137,18 @@ render(){
             <input type="submit" className="btn btn-primary" value="Register" />
           </form>
           <p className="my-1">
-            Already have an account? <a href="login.html">Sign In</a>
+            Already have an account? <Link to="/login">Sign In</Link>
           </p>
         </div>
     )
   }
 }
 
-export default Register
+
+const mapStateToProps = state => ({
+  isRegistered: state.auth_reducer.isRegistered
+});
+
+//connect is used to connect this component and actions...
+//by using this line, actions can be accessed as... this.props.register
+export default connect(mapStateToProps, {register, setAlert})(Register);

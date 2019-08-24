@@ -34,6 +34,9 @@ router.get('/register',isNotAuthenticated, (req,res)=> {
     res.send('register page');
 })
 
+//router.post('/deepak',(req,res)=> {
+//    console.log(req.body);
+//})
 
 router.post('/register',(req,res)=>{
     
@@ -52,8 +55,8 @@ router.post('/register',(req,res)=>{
     if(!req.body.password){
         errors.push({message:'Enter password'});
     }
-    if(req.body.password.length<4){
-        errors.push({message:'Password length must be greater than 4'});
+    if(req.body.password.length<6){
+        errors.push({message:'Password length must be greater than 6'});
     }
     
     
@@ -64,7 +67,9 @@ router.post('/register',(req,res)=>{
         
         User.findOne({ email: req.body.email}).then((user)=> {
             if(user){
-               res.send("user exists");
+               
+               let error= {message:'User with this email already exists'} 
+               res.status(400).send(error);
             }
             else{
                 bcrypt.genSalt(10, function(err, salt) {
