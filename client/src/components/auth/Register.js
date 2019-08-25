@@ -4,7 +4,10 @@ import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 //importing actions
 import {register} from '../../actions/auth';
+import {registered} from '../../actions/auth';
+import {loadUser} from '../../actions/auth';
 import {setAlert} from '../../actions/alert';
+
 
 
 class Register extends Component{
@@ -71,7 +74,7 @@ class Register extends Component{
             }
             
             this.props.register(user);
-            
+        
 //            const config= {
 //                headers:{
 //                    'Content-Type':'application/json'
@@ -91,6 +94,11 @@ class Register extends Component{
                 password:"",
                 confirmPassword:"",
             })
+            
+        }
+        
+        this.componentDidMount=()=> {
+            console.log(this.props);
         }
     }
     
@@ -101,8 +109,17 @@ render(){
     
     
     if (this.props.isRegistered) {
+        this.props.registered();
         return <Redirect to='/login' />;
       }
+    
+    if (this.props.isAuthenticated) {
+        return <Redirect to='/dashboard' />;
+      }
+    
+//      if (this.props.isRegistered) {
+//        this.props.history.push('/login');
+//      }
   
     return(
     
@@ -152,9 +169,10 @@ render(){
 
 
 const mapStateToProps = state => ({
-  isRegistered: state.auth_reducer.isRegistered
+  isRegistered: state.auth_reducer.isRegistered,
+  isAuthenticated: state.auth_reducer.isAuthenticated
 });
 
 //connect is used to connect this component and actions...
 //by using this line, actions can be accessed as... this.props.register
-export default connect(mapStateToProps, {register, setAlert})(Register);
+export default connect(mapStateToProps, {register,registered, setAlert,loadUser})(Register);

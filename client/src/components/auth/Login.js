@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
+
+import {loadUser} from '../../actions/auth';
+import {login} from '../../actions/auth';
+import {setAlert} from '../../actions/alert';
 
 
 class Login extends Component{
@@ -28,37 +33,50 @@ class Login extends Component{
         
         this.handleSubmit=(event)=> {
             event.preventDefault();
-              
+            
             const user={
                 email:this.state.email,
                 password:this.state.password
             }
             
-            const config= {
-                headers:{
-                    'Content-Type':'application/json'
-                }
-            }
-            const body= JSON.stringify(user);
-           
-            axios.post('/users/login',body, config).then((response)=> {
-                console.log(response);
-            }).catch(err=> {
-                console.log(err);
-            })
+            this.props.login(user);
+            
+//            const config= {
+//                headers:{
+//                    'Content-Type':'application/json'
+//                }
+//            }
+//            const body= JSON.stringify(user);
+//           
+//            axios.post('/users/login',body, config).then((response)=> {
+//                console.log(response);
+//            }).catch(err=> {
+//                console.log(err);
+//            })
+//            
+//            this.setState({
+//                email:"",
+//                password:""
+//            })
             
             this.setState({
                 email:"",
                 password:""
-            })
-                    
+            })                   
         }
     }
     
-    
-    
-
 render(){
+    
+    console.log(this.props.isAuthenticated);
+    
+//    if (this.props.isAuthenticated) {
+//        return <Redirect to='/dashboard' />;
+//      }
+    
+      if (this.props.isAuthenticated) {
+        this.props.history.push('/dashboard');
+      }
     
     return(
     
@@ -92,6 +110,12 @@ render(){
   }
 }
 
-export default Login
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth_reducer.isAuthenticated,
+  user: state.auth_reducer.user
+});
+
+export default connect(mapStateToProps, {login,loadUser,setAlert})(Login);
 
 
