@@ -15,18 +15,18 @@ export const register= (user)=> dispatch =>{
 
     axios.post('/users/register',body, config).then((response)=> {
         console.log(response);
-        dispatch(setAlert("You are successfully registered",'success'));
         dispatch({
             type:REGISTER_SUCCESS
         })
+        dispatch(setAlert("You are successfully registered",'success'));
     }).catch(err=> {
         console.log(err.response.data);
         let errors= err.response.data;
-        errors.forEach(error=> {
-            dispatch(setAlert(error.message,"danger"));
-        })
         dispatch({
             type:REGISTER_FAILURE
+        })
+        errors.forEach(error=> {
+            dispatch(setAlert(error.message,"danger"));
         })
     })          
 }
@@ -52,20 +52,20 @@ export const login= (user)=> dispatch =>{
 
     axios.post('/users/login',body, config).then((response)=> {
         console.log(response.data);
-        dispatch(setAlert("You are successfully logged in",'success'));
         dispatch({
             type:LOGIN_SUCCESS,
             data:response.data
         })
+        dispatch(setAlert("You are successfully logged in",'success'));
     }).catch(err=> {
         console.log(err.response.data);
+        dispatch({
+            type:LOGIN_FAILURE
+        })
 //        let errors= err.response.data;
 //        errors.forEach(error=> {
 //            dispatch(setAlert(error.message,"danger"));
 //        })
-        dispatch({
-            type:LOGIN_FAILURE
-        })
     })          
 }
 
@@ -91,7 +91,7 @@ export const loadUser=()=> dispatch=> {
             type:USER_LOADED,
             data:response.data
         })
-    }).then(err=> {
+    }).catch(err=> {
         console.log(err);
         dispatch({
             type:AUTH_ERROR,

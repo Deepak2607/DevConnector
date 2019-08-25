@@ -16,31 +16,37 @@ class Login extends Component{
             email:"",
             password:"",
         }
-        
-        this.handleEmail=(event)=> {
-            
-            this.setState({
-                email:event.target.value
-            })
+    }
+    
+    //this input data doesn't have any use, so it is not included into redux
+    //all the useful data is only..the data saved in database, so they are included in redux
+    //and can be accessed anywhere
+    
+    handleEmail=(event)=> {
+
+        this.setState({
+            email:event.target.value
+        })
+    }
+
+    handlePassword=(event)=> {
+
+        this.setState({
+            password:event.target.value
+        })
+    }
+
+    handleSubmit=(event)=> {
+        event.preventDefault();
+
+        const user={
+            email:this.state.email,
+            password:this.state.password
         }
-        
-        this.handlePassword=(event)=> {
-            
-            this.setState({
-                password:event.target.value
-            })
-        }
-        
-        this.handleSubmit=(event)=> {
-            event.preventDefault();
-            
-            const user={
-                email:this.state.email,
-                password:this.state.password
-            }
-            
-            this.props.login(user);
-            
+
+        this.props.login(user);
+
+
 //            const config= {
 //                headers:{
 //                    'Content-Type':'application/json'
@@ -58,25 +64,27 @@ class Login extends Component{
 //                email:"",
 //                password:""
 //            })
-            
-            this.setState({
-                email:"",
-                password:""
-            })                   
-        }
+
+        this.setState({
+            email:"",
+            password:""
+        })                   
     }
+        
+
     
 render(){
     
-    console.log(this.props.isAuthenticated);
     
-//    if (this.props.isAuthenticated) {
-//        return <Redirect to='/dashboard' />;
-//      }
+    console.log(this.props.user);
     
-      if (this.props.isAuthenticated) {
-        this.props.history.push('/dashboard');
+    if (this.props.isAuthenticated) {
+        return <Redirect to='/dashboard' />;
       }
+    
+//      if (this.props.isAuthenticated) {
+//        this.props.history.push('/dashboard');
+//      }
     
     return(
     

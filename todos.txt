@@ -2,5 +2,9 @@ middlewares
 validations in routes
 problem in adding experience and education
 routes comments
+reloading while moving from dashboard page to login/register page via URL
+--> this problem is solved, see solution in App.js
+
+
 revise react understand the basic structures of react apps (using routing and redux)
 class-> className

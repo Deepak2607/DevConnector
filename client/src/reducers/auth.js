@@ -45,7 +45,9 @@ const auth_reducer=(state=initialState, action)=> {
         case LOGIN_FAILURE:
             return{
                 ...state,
-                loading:false
+                loading:false,
+                isAuthenticated:false,
+                user:null
             }
         case USER_LOADED:
             return{
@@ -57,6 +59,8 @@ const auth_reducer=(state=initialState, action)=> {
         case AUTH_ERROR:
             return{
                 ...state,
+                isAuthenticated:false,
+                user:null,
                 loading:false
             }
         default:
