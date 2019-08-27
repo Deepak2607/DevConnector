@@ -3,12 +3,14 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import auth_reducer from './reducers/auth';
 import alert_reducer from './reducers/alert';
+import profile_reducer from './reducers/profile';
 
 
 //store arguments
 const combinedReducer= combineReducers({
     auth_reducer:auth_reducer,
-    alert_reducer:alert_reducer
+    alert_reducer:alert_reducer,
+    profile_reducer:profile_reducer
 })
 const initialState= {};
 const middleware = [thunk];

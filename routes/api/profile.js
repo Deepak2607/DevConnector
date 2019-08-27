@@ -47,11 +47,11 @@ router.get('/my_profile',isAuthenticated,(req,res)=>{
         if(profile){
             res.send(profile);
         }else{
-            res.send(`you need to create your profile, ${req.user.name}`);
+            res.status(400).send(`you need to create your profile ${req.user.name}`);
         }
     }).catch((err)=> {
         console.log(err);
-        res.send("Server error");
+        res.status(500).send("Server error");
     });    
 })
 

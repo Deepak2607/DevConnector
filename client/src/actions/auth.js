@@ -58,14 +58,13 @@ export const login= (user)=> dispatch =>{
         })
         dispatch(setAlert("You are successfully logged in",'success'));
     }).catch(err=> {
-        console.log(err.response.data);
+        console.log(err.response);
         dispatch({
             type:LOGIN_FAILURE
         })
-//        let errors= err.response.data;
-//        errors.forEach(error=> {
-//            dispatch(setAlert(error.message,"danger"));
-//        })
+        let error= err.response.data;
+        dispatch(setAlert(error,"danger"));
+        
     })          
 }
 

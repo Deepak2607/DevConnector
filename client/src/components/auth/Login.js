@@ -102,7 +102,7 @@ render(){
                 type="password"
                 placeholder="Password"
                 name="password"
-                minLength="6"
+                minLength="4"
                 onChange={this.handlePassword}
                 value={this.state.password}
               />

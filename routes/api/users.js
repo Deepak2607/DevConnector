@@ -25,9 +25,9 @@ const isAuthenticated= (req,res,next)=> {
 }
 
 
-router.get('/login',isNotAuthenticated, (req,res)=> {
+router.get('/login', (req,res)=> {
 
-    res.send('login page');
+    res.status(400).send('invalid credentials');
 })
 
 router.get('/register',isNotAuthenticated, (req,res)=> {
@@ -55,8 +55,8 @@ router.post('/register',(req,res)=>{
     if(!req.body.password){
         errors.push({message:'Enter password'});
     }
-    if(req.body.password.length<6){
-        errors.push({message:'Password length must be greater than 6'});
+    if(req.body.password.length<4){
+        errors.push({message:'Password length must be greater than 3'});
     }
     
     
