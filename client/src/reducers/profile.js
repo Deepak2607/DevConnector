@@ -4,7 +4,7 @@ const initialState={
       profile: null,
       profiles: [],
 //      repos: [],
-//      loading: true,
+      loading: true,
       error:null
 };
 
@@ -15,13 +15,15 @@ const profile_reducer= (state=initialState, action)=> {
         case GET_PROFILE:
             return{
                 ...state,
-                profile:action.data       
+                profile:action.data,
+                loading:false 
             }   
         case PROFILE_ERROR:
             return{
                 ...state,
                 profile:null,
-                error:action.data
+                error:action.data,
+                loading:false 
             }
         default:
             return state;

@@ -117,10 +117,12 @@ render(){
         return <Redirect to='/dashboard' />;
       }
     
-//      if (this.props.isRegistered) {
-//        this.props.history.push('/login');
-//      }
-  
+    //when a page is reloaded or moving to any url.. user-> unAuthenticated & loading-> true (i.e. default state)
+    //this is used to hide the view of ..say intermediate components
+    if(! this.props.isAuthenticated && this.props.loading){
+        return "loading...."
+    }
+
     return(
     
         <div>
@@ -170,6 +172,7 @@ render(){
 
 const mapStateToProps = state => ({
   isRegistered: state.auth_reducer.isRegistered,
+  loading:state.auth_reducer.loading,
   isAuthenticated: state.auth_reducer.isAuthenticated
 });
 

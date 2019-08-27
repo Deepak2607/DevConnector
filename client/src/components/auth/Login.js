@@ -59,12 +59,7 @@ class Login extends Component{
 //            }).catch(err=> {
 //                console.log(err);
 //            })
-//            
-//            this.setState({
-//                email:"",
-//                password:""
-//            })
-
+            
         this.setState({
             email:"",
             password:""
@@ -82,9 +77,13 @@ render(){
         return <Redirect to='/dashboard' />;
       }
     
-//      if (this.props.isAuthenticated) {
-//        this.props.history.push('/dashboard');
-//      }
+    
+    //when a page is reloaded or moving to any url.. user-> unAuthenticated & loading-> true (i.e. default state)
+    //this is used to hide the view of ..say intermediate components
+    if(! this.props.isAuthenticated && this.props.loading){
+        return "loading...."
+    }
+    
     
     return(
     
@@ -121,7 +120,8 @@ render(){
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth_reducer.isAuthenticated,
-  user: state.auth_reducer.user
+  user: state.auth_reducer.user,
+  loading:state.auth_reducer.loading
 });
 
 export default connect(mapStateToProps, {login,loadUser,setAlert})(Login);

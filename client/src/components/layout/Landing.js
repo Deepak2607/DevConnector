@@ -9,6 +9,9 @@ const Landing= (props)=> {
         return <Redirect to='/dashboard' />
     }
     
+    if(! props.isAuthenticated && props.loading){
+        return <div className="container">loading....</div>
+    }
    
     return(
         <div>
@@ -33,6 +36,7 @@ const Landing= (props)=> {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth_reducer.isAuthenticated,
+  loading:state.auth_reducer.loading
 });
 
 export default connect(mapStateToProps,{setAlert})(Landing);
