@@ -8,3 +8,5 @@ reloading while moving from dashboard page to login/register page via URL
 
 revise react understand the basic structures of react apps (using routing and redux)
 class-> className
+
+🍝😋🍳👨🏻‍💻😴🔁
