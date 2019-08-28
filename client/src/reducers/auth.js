@@ -1,7 +1,6 @@
 import {REGISTER_SUCCESS, REGISTER_FAILURE, REGISTERED,LOGIN_SUCCESS,LOGIN_FAILURE,LOGOUT,USER_LOADED,AUTH_ERROR } from '../actions/types';
 
 const initialState={
-    isRegistered:false,
     isAuthenticated:false,
     user:null,
     loading:true
@@ -13,19 +12,11 @@ const auth_reducer=(state=initialState, action)=> {
         case REGISTER_SUCCESS:
             return{
                 ...state,
-                isRegistered:true,
                 loading:false        
             }   
         case REGISTER_FAILURE:
             return{
                 ...state,
-                isRegistered:false,
-                loading:false
-            }
-        case REGISTERED:
-            return{
-                ...state,
-                isRegistered:false,
                 loading:false
             }
         case LOGIN_SUCCESS:

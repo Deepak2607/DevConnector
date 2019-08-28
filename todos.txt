@@ -1,12 +1,23 @@
-middlewares
-validations in routes
+isAuthenticated and isNotAuthenticated middlewares
+
+apply validations in routes
+
 problem in adding experience and education
-routes comments
+
+add comments for all routes and wherever required
+
+show profile data in EditProfile
+
+when move to create-profile via url, redirected to dashboard
+
 reloading while moving from dashboard page to login/register page via URL
 --> this problem is solved, see solution in App.js
 
-
 revise react understand the basic structures of react apps (using routing and redux)
 class-> className
+
+answer for more questions like...How to prevent state change in React after page refresh/view change?
+
+
 
 🍝😋🍳👨🏻‍💻😴🔁

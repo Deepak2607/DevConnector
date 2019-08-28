@@ -180,10 +180,10 @@ router.delete('/comment/:id/:cmt_id',isAuthenticated,(req,res)=> {
         })
             
         if(flag!=1 && flag!=0){
-            return res.send("comment not found");
+            return res.status(400).send("comment not found");
         }
         if(flag==0){
-            return res.send("you are not authorised to delete this comment");
+            return res.status(401).send("you are not authorised to delete this comment");
         }
         
         post.comments.splice(removeIndex,1);

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 //for registration
-export const register= (user)=> dispatch =>{
+export const register= (user, history)=> dispatch =>{
     
     const config= {
         headers:{
@@ -19,6 +19,8 @@ export const register= (user)=> dispatch =>{
             type:REGISTER_SUCCESS
         })
         dispatch(setAlert("You are successfully registered",'success'));
+        history.push('/login');
+        
     }).catch(err=> {
         console.log(err.response.data);
         let errors= err.response.data;

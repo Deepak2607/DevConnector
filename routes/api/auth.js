@@ -18,7 +18,7 @@ const isAuthenticated= (req,res,next)=> {
     }
 }
 
-
+//getting authenticated user details
 router.get('/',isAuthenticated,(req,res)=>{
     
     User.findById(req.user.id).select('-password').then((user)=> {

@@ -129,6 +129,9 @@ class CreateProfile extends Component{
         })
     }
     
+    
+    //this function runs when the component is reloaded, similar to useEffect() hook.
+    //we can't use useEffect() hook in class component so we are using this function to call the action getCurrentProfile()
     componentDidMount=()=> {
         console.log(this.props.history);
         this.props.getCurrentProfile();

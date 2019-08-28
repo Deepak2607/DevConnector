@@ -97,6 +97,7 @@ router.get('/create',isAuthenticated,(req,res)=>{
 //creating my profile..POST request
 router.post('/create',isAuthenticated,(req, res) => {
 
+    //destructuring
     const {
       company,
       website,
