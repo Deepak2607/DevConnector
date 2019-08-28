@@ -20,3 +20,32 @@ export const getCurrentProfile= ()=> dispatch=> {
         })
     })
 }
+
+export const createProfile= (formData, history)=> dispatch=> {
+    
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    axios.post('/profiles/create',formData, config).then(response=> {
+        console.log(response);
+        
+        dispatch({
+          type: GET_PROFILE,
+          payload: response.data
+        });
+
+        dispatch(setAlert('Profile Created', 'success'));
+        history.push('/dashboard');  
+        
+    }).catch(err=> {
+        console.log(err.response.data);
+        
+        let errors= err.response.data;
+        errors.forEach(error=> {
+            dispatch(setAlert(error.message,"danger"));
+        })
+    })
+}

@@ -2,6 +2,7 @@ import React, {div, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 
+import DashboardActions from './DashboardActions';
 import {getCurrentProfile} from '../../actions/profile';
 import {setAlert} from '../../actions/alert';
 import store from '../../store';
@@ -16,11 +17,11 @@ const Dashboard= (props)=> {
       }, []);
     
     
-    if(!props.isAuthenticated && !props.loading){
-        return <Redirect to='/login' />;
-    }else if(!props.isAuthenticated && props.loading){
-        return "loading...."
-    }
+//    if(!props.isAuthenticated && !props.loading){
+//        return <Redirect to='/login' />;
+//    }else if(!props.isAuthenticated && props.loading){
+//        return "loading...."
+//    }
     
     
     return(
@@ -33,7 +34,7 @@ const Dashboard= (props)=> {
         
           {props.profile !== null ? (
             <div>
-              You have profile
+              <DashboardActions />
             </div>
           ) : (
             <div>

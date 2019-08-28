@@ -135,6 +135,20 @@ router.post('/create',isAuthenticated,(req, res) => {
     if (facebook) profileFields.social.facebook = facebook;
     if (linkedin) profileFields.social.linkedin = linkedin;
     if (instagram) profileFields.social.instagram = instagram;
+    
+    
+    let errors=[];   
+    if(!status){
+        errors.push({message:'Status is required'});
+    }
+    if(!skills){
+        errors.push({message:'Skills are required'});
+    }
+    
+    if(errors.length >0){
+        res.status(400).send(errors);
+        return;
+    }
 
 
     const profile= new Profile(profileFields);
