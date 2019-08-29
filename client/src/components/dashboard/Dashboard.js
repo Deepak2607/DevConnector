@@ -1,9 +1,13 @@
 import React, {div, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 
 import DashboardActions from './DashboardActions';
+import Experience from './Experience';
+import Education from './Education';
+
 import {getCurrentProfile} from '../../actions/profile';
+import {deleteAccount} from '../../actions/profile';
 import {setAlert} from '../../actions/alert';
 import store from '../../store';
 
@@ -29,12 +33,20 @@ const Dashboard= (props)=> {
         
         <h1 className='large text-primary'>Dashboard</h1>
           <p className='lead'>
-            <i className='fas fa-user' /> Welcome {props.user && props.user.name}
+          <i className='fas fa-user' /> Welcome {props.user && props.user.name}
           </p>
         
           {props.profile !== null ? (
             <div>
               <DashboardActions />
+              <Experience experience={props.profile.experience} />
+              <Education education={props.profile.education} />
+        
+              <div className='my-2'>
+                <button className='btn btn-danger' onClick={()=>props.deleteAccount(props.history)}>
+                  <i className='fas fa-user-minus' /> Delete My Account
+                </button>
+              </div>
             </div>
           ) : (
             <div>
@@ -58,4 +70,4 @@ const mapStateToProps = state => ({
   error:state.profile_reducer.error
 });
 
-export default connect(mapStateToProps,{getCurrentProfile,setAlert})(Dashboard);
+export default connect(mapStateToProps,{getCurrentProfile,setAlert,deleteAccount})(withRouter(Dashboard));

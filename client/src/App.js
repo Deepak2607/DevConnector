@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';

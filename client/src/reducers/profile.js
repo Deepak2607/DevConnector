@@ -1,4 +1,4 @@
-import {GET_PROFILE, PROFILE_ERROR} from '../actions/types';
+import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE} from '../actions/types';
 
 const initialState={
       profile: null,
@@ -16,7 +16,8 @@ const profile_reducer= (state=initialState, action)=> {
             return{
                 ...state,
                 profile:action.data,
-                loading:false 
+                loading:false,
+                error:null
             }   
         case PROFILE_ERROR:
             return{
@@ -24,6 +25,12 @@ const profile_reducer= (state=initialState, action)=> {
                 profile:null,
                 error:action.data,
                 loading:false 
+            }
+        case CLEAR_PROFILE:
+            return{
+                ...state,
+                profile:null,
+                loading:false
             }
         default:
             return state;

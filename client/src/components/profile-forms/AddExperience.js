@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addExperience } from '../../actions/profile';
+import { loadUser } from '../../actions/auth';
 
 class AddExperience extends Component{
     
@@ -90,7 +91,7 @@ class AddExperience extends Component{
     //we can't use useEffect() hook in class component so we are using this function to call the action getCurrentProfile()
     componentDidMount=()=> {
         console.log(this.props.history);
-//        this.props.getCurrentProfile();
+//        this.props.loadUser();
     }
     
     
@@ -193,4 +194,4 @@ render(){
     }
 }
 
-export default connect(null,{ addExperience })(withRouter(AddExperience));
+export default connect(null,{ addExperience,loadUser })(withRouter(AddExperience));

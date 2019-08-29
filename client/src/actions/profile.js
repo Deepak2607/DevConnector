@@ -1,4 +1,4 @@
-import {GET_PROFILE, PROFILE_ERROR} from './types';
+import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, LOGOUT} from './types';
 import {setAlert }from './alert';
 import axios from 'axios';
 
@@ -141,3 +141,65 @@ export const addEducation=(formData, history)=> dispatch=>{
 //        })
     })
 }
+
+
+export const deleteExperience= (id)=> dispatch=> {
+    
+    axios.delete(`/profiles/experience/${id}`).then(response=> {
+        
+        console.log(response);
+        
+        dispatch({
+            type:GET_PROFILE,
+            data:response.data
+        })
+        dispatch(setAlert('Experience deleted', 'success'));
+    }).catch(err=> {
+        console.log(err);
+    })
+}
+
+
+export const deleteEducation= (id)=> dispatch=> {
+    
+    axios.delete(`/profiles/education/${id}`).then(response=> {
+        
+        console.log(response);
+        
+        dispatch({
+            type:GET_PROFILE,
+            data:response.data
+        })
+        dispatch(setAlert('Education deleted', 'success'));
+    }).catch(err=> {
+        console.log(err);
+    })
+}
+
+
+// Delete account & profile
+export const deleteAccount = (history) => dispatch => {
+    
+  if (window.confirm('Are you sure to delete your account?')) {
+        
+        axios.delete('/profiles/delete').then(response=> {
+          console.log(response.data);
+          
+          window.location.reload(); 
+          dispatch(setAlert('Your account has been deleted')); 
+          
+//          axios.get('/users/logout').then(response=> {
+//            dispatch({
+//                type:LOGOUT
+//            });
+//          })
+        
+        }).catch (err=>{
+            console.log(err.response); 
+        }) 
+           
+  }
+};
+
+
+

@@ -75,7 +75,7 @@ render(){
     
     if (this.props.isAuthenticated){
         return <Redirect to='/dashboard' />;
-      }
+    }
     
     
     //when a page is reloaded or moving to any url.. user-> unAuthenticated & loading-> true (i.e. default state)

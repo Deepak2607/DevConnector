@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS, REGISTER_FAILURE, REGISTERED,LOGIN_SUCCESS,LOGIN_FAILURE,LOGOUT, USER_LOADED,AUTH_ERROR} from './types';
+import {REGISTER_SUCCESS, REGISTER_FAILURE,LOGIN_SUCCESS,LOGIN_FAILURE,LOGOUT, USER_LOADED,AUTH_ERROR} from './types';
 import {setAlert }from './alert';
 import axios from 'axios';
 
@@ -31,14 +31,6 @@ export const register= (user, history)=> dispatch =>{
             dispatch(setAlert(error.message,"danger"));
         })
     })          
-}
-
-
-//after registration
-export const registered=()=> dispatch=> {
-    dispatch({
-        type:REGISTERED
-    })
 }
 
 

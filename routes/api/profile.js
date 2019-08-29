@@ -257,6 +257,8 @@ router.delete('/delete',isAuthenticated,(req,res)=> {
         User.findByIdAndRemove(req.user.id).then((user)=> {
             
             res.send(`yours (${user.name}'s) profile and account are deleted`);
+        }).catch(err=> {
+            res.status(500).send("Server error");
         })
     })
 })
@@ -354,7 +356,7 @@ router.delete('/experience/:exp_id',isAuthenticated,(req, res) => {
             res.send(profile);
         }).catch(err=> {
             console.log(err);
-            res.send("Server error");
+            res.status(500).send("Server error");
         })
     })
 })
@@ -375,7 +377,7 @@ router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
             res.send(profile);
         }).catch(err=> {
             console.log(err);
-            res.send("Server error");
+            res.status(500).send("Server error");
         })
     })
 })
