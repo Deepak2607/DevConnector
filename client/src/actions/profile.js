@@ -34,7 +34,7 @@ export const createProfile= (formData, history)=> dispatch=> {
         
         dispatch({
           type: GET_PROFILE,
-          payload: response.data
+          data: response.data
         });
 
         dispatch(setAlert('Profile Created', 'success'));
@@ -47,5 +47,97 @@ export const createProfile= (formData, history)=> dispatch=> {
         errors.forEach(error=> {
             dispatch(setAlert(error.message,"danger"));
         })
+    })
+}
+
+
+export const editProfile= (formData, history)=> dispatch=> {
+    
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    axios.put('/profiles/edit_profile',formData, config).then(response=> {
+        console.log(response);
+        
+        dispatch({
+          type: GET_PROFILE,
+          data: response.data
+        });
+
+        dispatch(setAlert('Profile Updated', 'success'));
+        history.push('/dashboard');  
+        
+    }).catch(err=> {
+        console.log(err.response.data);
+        
+        let errors= err.response.data;
+        errors.forEach(error=> {
+            dispatch(setAlert(error.message,"danger"));
+        })
+    })
+}
+
+
+export const addExperience=(formData, history)=> dispatch=>{
+     
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    axios.put('/profiles/experience', formData, config).then(response=> {
+        
+        console.log(response.data);
+        
+        dispatch({
+            type:GET_PROFILE,
+            data:response.data
+        })
+        dispatch(setAlert('Experience Added', 'success'));
+        history.push('/dashboard');
+        
+    }).catch(err=> {
+        console.log(err.response);
+        
+//        let errors= err.response.data;
+//        errors.forEach(error=> {
+//            dispatch(setAlert(error.message,"danger"));
+//        })
+    })
+}
+
+
+
+export const addEducation=(formData, history)=> dispatch=>{
+     
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    
+    axios.put('/profiles/education', formData, config).then(response=> {
+        
+        console.log(response.data);
+        
+        dispatch({
+            type:GET_PROFILE,
+            data:response.data
+        })
+        
+        dispatch(setAlert('Education Added', 'success'));
+        history.push('/dashboard');
+        
+    }).catch(err=> {
+        console.log(err.response);
+        
+//        let errors= err.response.data;
+//        errors.forEach(error=> {
+//            dispatch(setAlert(error.message,"danger"));
+//        })
     })
 }

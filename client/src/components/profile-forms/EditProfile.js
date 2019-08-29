@@ -1,7 +1,7 @@
 import React, { useEffect, Component } from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCurrentProfile,  createProfile } from "../../actions/profile";
+import { getCurrentProfile,  editProfile } from "../../actions/profile";
 import {setAlert} from '../../actions/alert';
 
 
@@ -91,7 +91,7 @@ class EditProfile extends Component{
         })
     }
     
-    handleFacebok=(event)=> {
+    handleFacebook=(event)=> {
         this.setState({
             facebook:event.target.value
         })
@@ -134,7 +134,7 @@ class EditProfile extends Component{
         } 
               
               
-        this.props.createProfile(formData, this.props.history);
+        this.props.editProfile(formData, this.props.history);
     }
     
     toggleLinks=()=> {
@@ -355,4 +355,4 @@ const mapStateToProps = state => ({
   loading:state.profile_reducer.loading
 });
 
-export default connect(mapStateToProps,{ getCurrentProfile, createProfile })(withRouter(EditProfile));
+export default connect(mapStateToProps,{ getCurrentProfile, editProfile })(withRouter(EditProfile));

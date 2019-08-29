@@ -223,6 +223,20 @@ router.put('/edit_profile',isAuthenticated,(req,res)=>{
     if (instagram) profileFields.social.instagram = instagram;
     
     
+    let errors=[];   
+    if(!status){
+        errors.push({message:'Status is required'});
+    }
+    if(!skills){
+        errors.push({message:'Skills are required'});
+    }
+    
+    if(errors.length >0){
+        res.status(400).send(errors);
+        return;
+    }
+    
+    
     Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{new:true}).populate('user').then((profile)=> {
         
         res.send(profile);
@@ -291,7 +305,7 @@ router.put('/experience',isAuthenticated, (req, res) => {
 router.put('/education',isAuthenticated,(req, res) =>{
    
     const {
-      college,
+      school,
       degree,
       fieldofstudy,
       from,
@@ -301,7 +315,7 @@ router.put('/education',isAuthenticated,(req, res) =>{
     } = req.body;
 
     let new_education = {};
-    if (college) new_education.college = college;
+    if (school) new_education.college = school;
     if (degree) new_education.degree = degree;
     if (fieldofstudy) new_education.fieldofstudy = fieldofstudy;
     if (from) new_education.from = from;

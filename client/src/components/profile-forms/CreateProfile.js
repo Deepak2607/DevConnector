@@ -134,7 +134,7 @@ class CreateProfile extends Component{
     //we can't use useEffect() hook in class component so we are using this function to call the action getCurrentProfile()
     componentDidMount=()=> {
         console.log(this.props.history);
-        this.props.getCurrentProfile();
+//        this.props.getCurrentProfile();
     }
     
     

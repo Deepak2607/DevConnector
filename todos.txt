@@ -8,7 +8,10 @@ add comments for all routes and wherever required
 
 show profile data in EditProfile
 
-when move to create-profile via url, redirected to dashboard
+when move to create-profile (or any link when a user is authenticated) via url, redirected to dashboard
+you know the reason...but not solution
+
+white space in landing page
 
 reloading while moving from dashboard page to login/register page via URL
 --> this problem is solved, see solution in App.js
