@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { deleteExperience } from '../../actions/profile';
 
 const Experience = (props) => {
-    
+  
   const experiences = props.experience.map(exp => {
       
     return(

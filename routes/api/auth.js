@@ -6,7 +6,7 @@ const isNotAuthenticated= (req,res,next)=> {
     if(! req.isAuthenticated()){
         next();
     }else{
-        res.send('You need to logout first');
+        res.status(400).send('You need to logout first');
     }
 }
 

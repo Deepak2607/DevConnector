@@ -1,8 +1,7 @@
-import React, { useEffect, Component } from "react";
+import React, { Component } from "react";
 import { Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCurrentProfile,  createProfile } from "../../actions/profile";
-import {setAlert} from '../../actions/alert';
 
 
 class CreateProfile extends Component{

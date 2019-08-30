@@ -1,8 +1,8 @@
-import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, LOGOUT} from './types';
+import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, LOGOUT, GET_PROFILES, GET_REPOS} from './types';
 import {setAlert }from './alert';
 import axios from 'axios';
 
-
+//getting profile of mine (authenticated user)
 export const getCurrentProfile= ()=> dispatch=> {
     
     axios.get('/profiles/my_profile').then(response=> {
@@ -21,6 +21,48 @@ export const getCurrentProfile= ()=> dispatch=> {
     })
 }
 
+
+//getting all profiles
+export const getProfiles=()=> dispatch=>{
+    
+    axios.get('/profiles').then(response=> {
+        console.log(response);
+        
+        dispatch({
+            type:GET_PROFILES,
+            data:response.data
+        })
+    }).catch(err=> {
+        console.log(err.response);
+        dispatch({
+            type:PROFILE_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+//getting profile of each user by... profile_id
+export const getProfileById=(id)=> dispatch=>{
+    
+    axios.get(`/profiles/user/${id}`).then(response=> {
+        console.log(response);
+        
+        dispatch({
+            type:GET_PROFILE,
+            data:response.data
+        })
+    }).catch(err=> {
+        console.log(err.response);
+        dispatch({
+            type:PROFILE_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+
+
+//creating my profile
 export const createProfile= (formData, history)=> dispatch=> {
     
     const config = {
@@ -51,6 +93,7 @@ export const createProfile= (formData, history)=> dispatch=> {
 }
 
 
+//editing my profile
 export const editProfile= (formData, history)=> dispatch=> {
     
     const config = {
@@ -81,6 +124,8 @@ export const editProfile= (formData, history)=> dispatch=> {
 }
 
 
+
+//adding experience to my profile
 export const addExperience=(formData, history)=> dispatch=>{
      
     const config = {
@@ -101,7 +146,7 @@ export const addExperience=(formData, history)=> dispatch=>{
         history.push('/dashboard');
         
     }).catch(err=> {
-        console.log(err.response);
+        console.log(err.response.data);
         
 //        let errors= err.response.data;
 //        errors.forEach(error=> {
@@ -112,6 +157,7 @@ export const addExperience=(formData, history)=> dispatch=>{
 
 
 
+//adding education to my profile
 export const addEducation=(formData, history)=> dispatch=>{
      
     const config = {
@@ -133,7 +179,7 @@ export const addEducation=(formData, history)=> dispatch=>{
         history.push('/dashboard');
         
     }).catch(err=> {
-        console.log(err.response);
+        console.log(err.response.data);
         
 //        let errors= err.response.data;
 //        errors.forEach(error=> {
@@ -143,6 +189,7 @@ export const addEducation=(formData, history)=> dispatch=>{
 }
 
 
+//deleting my experience
 export const deleteExperience= (id)=> dispatch=> {
     
     axios.delete(`/profiles/experience/${id}`).then(response=> {
@@ -155,7 +202,11 @@ export const deleteExperience= (id)=> dispatch=> {
         })
         dispatch(setAlert('Experience deleted', 'success'));
     }).catch(err=> {
-        console.log(err);
+        console.log(err.response);
+        dispatch({
+            type:PROFILE_ERROR,
+            data:err.response.data
+        })
     })
 }
 
@@ -172,7 +223,11 @@ export const deleteEducation= (id)=> dispatch=> {
         })
         dispatch(setAlert('Education deleted', 'success'));
     }).catch(err=> {
-        console.log(err);
+        console.log(err.response);
+        dispatch({
+            type:PROFILE_ERROR,
+            data:err.response.data
+        })
     })
 }
 
@@ -195,11 +250,36 @@ export const deleteAccount = (history) => dispatch => {
 //          })
         
         }).catch (err=>{
-            console.log(err.response); 
-        }) 
-           
+            console.log(err.response);
+            dispatch({
+                type:PROFILE_ERROR,
+                data:err.response.data
+            })
+        })           
   }
 };
+
+
+//getting github repos of a user by... github_username
+export const getGithubRepos=(username)=> dispatch=>{
+    
+    axios.get(`/profiles/github/${username}`).then(response=> {
+        console.log(response);
+        
+        dispatch({
+            type:GET_REPOS,
+            data:response.data
+        })
+    }).catch(err=> {
+        console.log(err.response);
+        dispatch({
+            type:PROFILE_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+
 
 
 

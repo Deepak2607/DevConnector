@@ -10,7 +10,7 @@ const isNotAuthenticated= (req,res,next)=> {
     if(! req.isAuthenticated()){
         next();
     }else{
-        res.send('You need to logout first');
+        res.status(400).send('You need to logout first');
     }
 }
 
@@ -18,14 +18,14 @@ const isAuthenticated= (req,res,next)=> {
     if(req.isAuthenticated()){
         next();
     }else{
-        res.send('You need to login first');
+        res.status(400).send('You need to login first');
     }
 }
 
 
 
 //getting all profiles
-router.get('/',isAuthenticated,(req,res)=> {
+router.get('/',(req,res)=> {
     
     Profile.find().populate('user').then((profiles)=> {
         
@@ -57,8 +57,8 @@ router.get('/my_profile',isAuthenticated,(req,res)=>{
 
 
 
-//profile of each user by using profile_id
-router.get('/user/:id',isAuthenticated,(req,res)=>{
+//profile of each user by... profile_id
+router.get('/user/:id',(req,res)=>{
     
     Profile.findById(req.params.id).populate('user').then((profile)=> {
         
@@ -72,7 +72,7 @@ router.get('/user/:id',isAuthenticated,(req,res)=>{
         if(err.kind=="ObjectId"){
             return res.status(404).send("profile not found");
         }
-        res.send("Server error");
+        res.status(500).send("Server error");
     });    
 })
 
@@ -287,6 +287,23 @@ router.put('/experience',isAuthenticated, (req, res) => {
     if (current) new_experience.current = current;
     if (description) new_experience.description = description; 
     
+    
+//    let errors=[];   
+//    if(!title){
+//        errors.push({message:'Title is required'});
+//    }
+//    if(!company){
+//        errors.push({message:'Company is required'});
+//    }
+//    if(!from){
+//        errors.push({message:'"From date" is required'});
+//    }
+//    
+//    if(errors.length >0){
+//        res.status(400).send(errors);
+//        return;
+//    }
+    
 
     Profile.findOne({ user: req.user.id }).then((profile)=> {
         
@@ -324,6 +341,26 @@ router.put('/education',isAuthenticated,(req, res) =>{
     if (to) new_education.to = to;
     if (current) new_education.current = current;
     if (description) new_education.description = description;
+    
+    
+//    let errors=[];   
+//    if(!school){
+//        errors.push({message:'School is required'});
+//    }
+//    if(!degree){
+//        errors.push({message:'Degree is required'});
+//    }
+//    if(!fieldofstudy){
+//        errors.push({message:'Field of study is required'});
+//    }
+//    if(!from){
+//        errors.push({message:'"From date" is required'});
+//    }
+//    
+//    if(errors.length >0){
+//        res.status(400).send(errors);
+//        return;
+//    }
 
       
     Profile.findOne({ user: req.user.id }).then((profile)=> {
@@ -397,8 +434,9 @@ per_page=5&sort=created:asc&client_id=${clientId}&client_secret=${clientSecret}`
     };
 
     request(options, (error, response, body) => {
-      if (error) console.error(error);
-
+      if (error){
+        return res.status(500).json({ msg: 'Server Error' });
+      } 
       if (response.statusCode !== 200) {
         return res.status(404).json({ msg: 'No Github profile found' });
       }

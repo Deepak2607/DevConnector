@@ -144,12 +144,13 @@ render(){
               />
             </div>
             <div className='form-group'>
-              <h4>From Date</h4>
+              <h4>* From Date</h4>
               <input
                 type='date'
                 name='from'
                 value={this.state.from}
                 onChange={this.handleFrom}
+                required
               />
             </div>
             <div className='form-group'>
