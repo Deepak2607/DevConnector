@@ -13,8 +13,6 @@ you know the reason...but not solution
 
 white space in landing page
 
-add post -> logout -> login... can't delete post of myself
-
 don't want to user windows.reload() to delete profile
 
 like button fill and blank (used in old version.. see in code)

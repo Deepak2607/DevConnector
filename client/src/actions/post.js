@@ -6,6 +6,7 @@ import {GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST, GET_POST, AD
 //getting a post by post_id
 export const getPost=(id)=> dispatch => {
     
+    
     axios.get(`/posts/${id}`).then(response=> {
         
         console.log(response.data);

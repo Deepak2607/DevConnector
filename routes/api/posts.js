@@ -26,7 +26,7 @@ const isAuthenticated= (req,res,next)=> {
 //getting all posts (from all users)
 router.get('/',isAuthenticated ,(req,res)=>{
     
-    Post.find().populate('user').sort({date:-1}).then(posts=> {
+    Post.find().sort({date:-1}).then(posts=> {
         res.send(posts);
     }).catch(err=> {
         console.log(err);
@@ -39,7 +39,7 @@ router.get('/',isAuthenticated ,(req,res)=>{
 //getting a specific post (using post_id)
 router.get('/:id',isAuthenticated ,(req,res)=>{
     
-    Post.findById(req.params.id).populate('user').then(post=> {
+    Post.findById(req.params.id).then(post=> {
         
         if(!post){
             return res.status(404).send("post not found");

@@ -25,6 +25,7 @@ export const getCurrentProfile= ()=> dispatch=> {
 //getting all profiles
 export const getProfiles=()=> dispatch=>{
     
+    
     axios.get('/profiles').then(response=> {
         console.log(response);
         
@@ -41,7 +42,7 @@ export const getProfiles=()=> dispatch=>{
     })
 }
 
-//getting profile of each user by... profile_id
+//getting profile of each user by... user_id
 export const getProfileById=(id)=> dispatch=>{
     
     axios.get(`/profiles/user/${id}`).then(response=> {

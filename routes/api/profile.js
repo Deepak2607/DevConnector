@@ -25,6 +25,7 @@ const isAuthenticated= (req,res,next)=> {
 
 
 //getting all profiles
+//actual data in profiles collection is same (i.e. user is userId), it is populated here to get user information also, but there will be no any change in profiles collection, it will remain same..(user-> userId)
 router.get('/',(req,res)=> {
     
     Profile.find().populate('user').then((profiles)=> {
@@ -57,10 +58,10 @@ router.get('/my_profile',isAuthenticated,(req,res)=>{
 
 
 
-//profile of each user by... profile_id
+//profile of each user by... user_id
 router.get('/user/:id',(req,res)=>{
     
-    Profile.findById(req.params.id).populate('user').then((profile)=> {
+    Profile.findOne({user:req.params.id}).populate('user').then((profile)=> {
         
         if(!profile){
             return res.status(404).send("profile not found");   

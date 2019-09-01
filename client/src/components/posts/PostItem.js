@@ -7,6 +7,9 @@ import { updateLikes, deletePost} from '../../actions/post';
 
 
 const PostItem= (props)=> {
+    
+    
+    console.log(props.user._id);
   
     return(
     
@@ -18,7 +21,7 @@ const PostItem= (props)=> {
                 
                     <div key={post._id} className="post bg-white p-1 my-1">
                       <div> 
-                        <Link to="">
+                        <Link to={`/profile/${post.user}`}>
                             <img className='round-img' src={post.avatar} alt='' />
                             <h4>{post.name}</h4>
                         </Link>
@@ -36,7 +39,7 @@ const PostItem= (props)=> {
                         </button>
 
 
-                        <Link to="" className="btn btn-primary">
+                        <Link to={`/posts/${post._id}`} className="btn btn-primary">
                           Discussion{' '}{(post.comments.length>0)? (
                           <span className='comment-count'>{post.comments.length}</span>
                           ) : null}
@@ -47,6 +50,9 @@ const PostItem= (props)=> {
                             <i className="fas fa-times"></i>
                             </button>
                          )}
+                         
+                         
+                         
                          
                       </div>
                     </div>

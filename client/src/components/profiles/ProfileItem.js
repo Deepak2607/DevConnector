@@ -16,7 +16,7 @@ const ProfileItem = (props) => {
           { (props.profile.location) ?( <span> {props.profile.location} </span>): null }
         </p>
       
-        <Link to={`/profile/${props.profile._id}`} className='btn btn-primary'>
+        <Link to={`/profile/${props.profile.user._id}`} className='btn btn-primary'>
           View Profile
         </Link>
       
