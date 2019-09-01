@@ -10,7 +10,7 @@ const Landing= (props)=> {
     }
     
     if(! props.isAuthenticated && props.loading){
-        return <div className="container">loading....</div>
+        return <div className="container">loading...</div>
     }
    
     return(

@@ -65,8 +65,7 @@ class Login extends Component{
             password:""
         })                   
     }
-        
-
+    
     
 render(){
     
@@ -74,7 +73,7 @@ render(){
     console.log(this.props.user);
     
     if (this.props.isAuthenticated){
-        return <Redirect to='/dashboard' />;
+        return <Redirect to='/posts' />;
     }
     
     

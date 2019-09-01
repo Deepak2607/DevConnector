@@ -26,11 +26,11 @@ const isAuthenticated= (req,res,next)=> {
 //getting all posts (from all users)
 router.get('/',isAuthenticated ,(req,res)=>{
     
-    Post.find().sort({date:-1}).then(posts=> {
+    Post.find().populate('user').sort({date:-1}).then(posts=> {
         res.send(posts);
     }).catch(err=> {
         console.log(err);
-        res.send("server errror");
+        res.status(500).send("server errror");
     })
     
 })
@@ -39,7 +39,7 @@ router.get('/',isAuthenticated ,(req,res)=>{
 //getting a specific post (using post_id)
 router.get('/:id',isAuthenticated ,(req,res)=>{
     
-    Post.findById(req.params.id).then(post=> {
+    Post.findById(req.params.id).populate('user').then(post=> {
         
         if(!post){
             return res.status(404).send("post not found");
@@ -51,7 +51,7 @@ router.get('/:id',isAuthenticated ,(req,res)=>{
             return res.status(404).send("post not found");
         }
         console.log(err);
-        res.send("server error");
+        res.status(500).send("server error");
     })
     
 })
@@ -78,7 +78,7 @@ router.delete('/:id',isAuthenticated ,(req,res)=>{
         if(err.kind=="ObjectId"){
             return res.status(404).send("post not found");
         }
-        res.send("server error");
+        res.status(500).send("server error");
     })
     
 })
@@ -112,17 +112,27 @@ router.put('/likes/:id',isAuthenticated,(req,res)=> {
     
     Post.findById(req.params.id).then(post=> {
         
-        let flag=0;
-        post.likes.forEach(like=> {
-            if(like.user.toString() === req.user.id){
-                post.likes.splice(like._id,1);
-                flag=1;
-            }
-        })
         
-        if(flag==0){
-            post.likes.unshift({user:req.user.id});
-        }
+    // Check if the post has already been liked
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
+        const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
+        post.likes.splice(removeIndex, 1);    
+    }
+    else{
+        post.likes.unshift({ user: req.user.id });
+    }
+        
+//        let flag=0;
+//        post.likes.forEach(like=> {
+//            if(like.user.toString() === req.user.id){
+//                post.likes.splice(like._id,1);
+//                flag=1;
+//            }
+//        })
+//            
+//        if(flag==0){
+//            post.likes.unshift({user:req.user.id});
+//        }
         
         post.save().then(post=> {
             res.send(post.likes);

@@ -36,7 +36,7 @@ const Dashboard= (props)=> {
           <i className='fas fa-user' /> Welcome {props.user && props.user.name}
           </p>
         
-          {props.profile !== null ? (
+          {!props.loading && props.profile !== null ? (
             <div>
               <DashboardActions />
               <Experience experience={props.profile.experience} />
