@@ -9,7 +9,7 @@ import { updateLikes, deletePost} from '../../actions/post';
 const PostItem= (props)=> {
     
     
-    console.log(props.user._id);
+//    console.log(props.user._id);
   
     return(
     

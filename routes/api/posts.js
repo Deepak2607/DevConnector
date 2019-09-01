@@ -182,7 +182,7 @@ router.delete('/comment/:id/:cmt_id',isAuthenticated,(req,res)=> {
         post.comments.forEach(comment=> {
             if(comment.id === req.params.cmt_id && req.user.id === comment.user.toString()){
                 flag=1;
-                removeIndex=req.user.id;
+                removeIndex=comment.id;
             }
             else if(comment.id === req.params.cmt_id && req.user.id !== comment.user.toString()){
                 flag=0;      

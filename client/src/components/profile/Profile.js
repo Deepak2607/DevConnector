@@ -36,6 +36,9 @@ class Profile extends Component{
 
   render(){
       
+      
+      console.log(this.props.match.params);
+      
       if(this.state.render==false){
           return <div>loading...</div>
       }

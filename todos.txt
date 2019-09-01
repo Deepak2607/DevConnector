@@ -19,6 +19,8 @@ like button fill and blank (used in old version.. see in code)
 
 add links in PostItem
 
+unable to access props.match.params.id in Post Route when i make it PrivateRoute
+
 reloading while moving from dashboard page to login/register page via URL
 --> this problem is solved, see solution in App.js
 

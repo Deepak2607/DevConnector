@@ -12,22 +12,29 @@ const Posts=(props)=> {
             store.dispatch(getPosts());
       }, []);
     
-    
-    
     console.log(props.posts);
-    return(  
+    
+    return( 
+        
         <div>
-          <h1 className='large text-primary'>Posts</h1>
-          <p className='lead'><i className='fas fa-user' />Welcome to the community</p>
+        {(props.posts && !props.loading) ? (
+         
+             <div>
+              <h1 className='large text-primary'>Posts</h1>
+              <p className='lead'><i className='fas fa-user' />Welcome to the community</p>
 
-          <PostForm/>
-          <PostItem posts={props.posts} />
+              <PostForm/>
+              <PostItem posts={props.posts} />
+            </div>
+         
+         ): <div>loading...</div> }
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-  posts: state.post_reducer.posts
+    posts: state.post_reducer.posts,
+    loading:state.post_reducer.loading
 });
 
 

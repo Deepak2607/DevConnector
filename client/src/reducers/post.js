@@ -29,7 +29,6 @@ const post_reducer=(state=initialState, action)=> {
             return{
                 ...state,
                 loading:false,
-                error:null,
                 posts:action.data,
             }
        case UPDATE_LIKES:
@@ -43,13 +42,15 @@ const post_reducer=(state=initialState, action)=> {
             return{
                 ...state,
                 loading:false,
-                posts:posts_1
+                posts:posts_1,
+                error:null
             }
         case ADD_POST:
             return{
                 ...state,
                 loading:false,
-                posts:[action.data, ...state.posts]
+                posts:[action.data, ...state.posts],
+                error:null
             }
         case DELETE_POST:
             
@@ -59,8 +60,29 @@ const post_reducer=(state=initialState, action)=> {
             return{
                 ...state,
                 loading:false,
-                posts:posts_3
+                posts:posts_3,
+                error:null
             }
+        case ADD_COMMENT:
+            return{
+                ...state,
+                post:{...state.post, comments:action.data},
+                loading:false,
+                error:null,
+            }
+        case REMOVE_COMMENT:
+            
+            return{
+                ...state,
+                post: {...state.post,
+                       comments: state.post.comments.filter(
+                        comment=> comment._id !== action.data)
+                      },
+                loading:false,
+                error:null,
+            }
+            
+            
         default:
             return state;
             

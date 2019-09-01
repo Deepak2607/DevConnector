@@ -3,28 +3,6 @@ import { setAlert } from './alert';
 import {GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST, GET_POST, ADD_COMMENT, REMOVE_COMMENT} from './types';
 
 
-//getting a post by post_id
-export const getPost=(id)=> dispatch => {
-    
-    
-    axios.get(`/posts/${id}`).then(response=> {
-        
-        console.log(response.data);
-        dispatch({
-            type:GET_POST,
-            data:response.data
-        })
-        
-    }).catch(err=> {
-        
-        console.log(err.response);
-        dispatch({
-            type:POST_ERROR,
-            data:err.response.data
-        })
-    })
-}
-
 
 //getting all posts
 export const getPosts=()=> dispatch => {
@@ -99,13 +77,11 @@ export const deletePost=(id)=> dispatch => {
 //adding a post
 export const addPost=(formData)=> dispatch => {
     
-    
     const config = {
         headers: {
           'Content-Type': 'application/json'
         }
       };
-    
     
     axios.post('/posts',formData, config).then(response=> {
         
@@ -116,6 +92,85 @@ export const addPost=(formData)=> dispatch => {
         })
         
         dispatch(setAlert("Post created", "success"));
+        
+    }).catch(err=> {
+        
+        console.log(err.response);
+        dispatch({
+            type:POST_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+
+
+//getting a post by post_id
+export const getPost=(id)=> dispatch => {
+    
+    
+    axios.get(`/posts/${id}`).then(response=> {
+        
+        console.log(response.data);
+        dispatch({
+            type:GET_POST,
+            data:response.data
+        })
+        
+    }).catch(err=> {
+        
+        console.log(err.response);
+        dispatch({
+            type:POST_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+
+
+//adding a comment to a post... id is post_id
+export const addComment=(formData,id)=> dispatch => {
+
+    const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+    
+    axios.post(`/posts/comment/${id}`, formData, config).then(response=> {
+        
+        console.log(response.data);
+        dispatch({
+            type:ADD_COMMENT,
+            data:response.data
+        })
+        
+        dispatch(setAlert("Comment added","success"));
+        
+    }).catch(err=> {
+        
+        console.log(err.response);
+        dispatch({
+            type:POST_ERROR,
+            data:err.response.data
+        })
+    })
+}
+
+
+//deleting a post.. id is post_id
+export const deleteComment=(postId, commentId)=> dispatch => {
+    
+    axios.delete(`/posts/comment/${postId}/${commentId}`).then(response=> {
+        
+        console.log(response.data);
+        dispatch({
+            type:REMOVE_COMMENT,
+            data:commentId
+        })
+        
+        dispatch(setAlert("Comment removed", "success"));
         
     }).catch(err=> {
         
