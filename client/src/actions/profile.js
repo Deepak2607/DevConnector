@@ -2,6 +2,7 @@ import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, LOGOUT, GET_PROFILES, GET_REP
 import {setAlert }from './alert';
 import axios from 'axios';
 
+
 //getting profile of mine (authenticated user)
 export const getCurrentProfile= ()=> dispatch=> {
     
@@ -41,6 +42,7 @@ export const getProfiles=()=> dispatch=>{
         })
     })
 }
+
 
 //getting profile of each user by... user_id
 export const getProfileById=(id)=> dispatch=>{
@@ -212,6 +214,7 @@ export const deleteExperience= (id)=> dispatch=> {
 }
 
 
+//deleting my education
 export const deleteEducation= (id)=> dispatch=> {
     
     axios.delete(`/profiles/education/${id}`).then(response=> {

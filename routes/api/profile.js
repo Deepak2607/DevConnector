@@ -23,7 +23,7 @@ const isAuthenticated= (req,res,next)=> {
 }
 
 
-
+//remember how to populate..any why populate
 //getting all profiles
 //actual data in profiles collection is same (i.e. user is userId), it is populated here to get user information also, but there will be no any change in profiles collection, it will remain same..(user-> userId)
 router.get('/',(req,res)=> {
@@ -308,6 +308,7 @@ router.put('/experience',isAuthenticated, (req, res) => {
 
     Profile.findOne({ user: req.user.id }).then((profile)=> {
         
+        //way to add an element in an array..unshift adds in front and..push adds in back
         profile.experience.unshift(new_experience);
         
         profile.save().then(profile=> {
@@ -366,6 +367,7 @@ router.put('/education',isAuthenticated,(req, res) =>{
       
     Profile.findOne({ user: req.user.id }).then((profile)=> {
         
+        //way to add an element in an array..unshift adds in front and..push adds in back
         profile.education.unshift(new_education);
         
         profile.save().then(profile=> {
@@ -384,11 +386,14 @@ router.delete('/experience/:exp_id',isAuthenticated,(req, res) => {
   
     Profile.findOne({ user: req.user.id }).then(profile =>{
             
-        profile.experience.forEach(experience => {
-            if(experience.id===req.params.exp_id){
-                profile.experience.splice(experience.id, 1);
-            }
-        })
+//        profile.experience.forEach(experience => {
+//            if(experience.id===req.params.exp_id){   
+//                profile.experience.splice(experience.id, 1);
+//            }
+//        })
+        
+        const removeIndex = profile.experience.map(exp => exp.id).indexOf(req.params.exp_id);
+        profile.experience.splice(removeIndex, 1);
     
         profile.save().then(()=> {  
             res.send(profile);
@@ -406,6 +411,7 @@ router.delete('/education/:edu_id',isAuthenticated,(req, res) => {
   
     Profile.findOne({ user: req.user.id }).then(profile =>{
             
+        //remember another way to delete an element from an array
         let educationlist_updated= profile.education.filter(education => {
             return (education.id!==req.params.edu_id); 
         })

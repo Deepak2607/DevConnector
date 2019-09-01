@@ -46,14 +46,9 @@ const ProfileGithub= (props)=> {
                 </div>
 
               ) : <div>No Repositories</div> }
-
-              
+      
         </div>
-         
-         
-         
-         
-         
+           
     )
 }
 

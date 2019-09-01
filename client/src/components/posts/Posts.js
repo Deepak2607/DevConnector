@@ -17,7 +17,7 @@ const Posts=(props)=> {
     return( 
         
         <div>
-        {(props.posts && !props.loading) ? (
+        {(props.posts.length==0 || props.loading) ? <div>loading...</div> : (
          
              <div>
               <h1 className='large text-primary'>Posts</h1>
@@ -27,7 +27,7 @@ const Posts=(props)=> {
               <PostItem posts={props.posts} />
             </div>
          
-         ): <div>loading...</div> }
+         )}
         </div>
     )
 }

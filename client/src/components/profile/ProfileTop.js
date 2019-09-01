@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 const ProfileTop= (props)=> {
     
     console.log(props.profile);

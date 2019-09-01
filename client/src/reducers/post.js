@@ -71,13 +71,9 @@ const post_reducer=(state=initialState, action)=> {
                 error:null,
             }
         case REMOVE_COMMENT:
-            
             return{
                 ...state,
-                post: {...state.post,
-                       comments: state.post.comments.filter(
-                        comment=> comment._id !== action.data)
-                      },
+                post: {...state.post, comments: action.data},
                 loading:false,
                 error:null,
             }

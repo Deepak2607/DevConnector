@@ -26,7 +26,7 @@ export const getPosts=()=> dispatch => {
 }
 
 
-//updating likes of a post.. id is post_id
+//updating (like/unlike) likes of a post.. id is post_id
 export const updateLikes=(id)=> dispatch => {
     
     axios.put(`/posts/likes/${id}`).then(response=> {
@@ -167,7 +167,7 @@ export const deleteComment=(postId, commentId)=> dispatch => {
         console.log(response.data);
         dispatch({
             type:REMOVE_COMMENT,
-            data:commentId
+            data:response.data
         })
         
         dispatch(setAlert("Comment removed", "success"));

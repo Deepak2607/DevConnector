@@ -51,9 +51,6 @@ const PostItem= (props)=> {
                             </button>
                          )}
                          
-                         
-                         
-                         
                       </div>
                     </div>
         

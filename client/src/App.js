@@ -30,7 +30,7 @@ const App= ()=> {
     //for example-- when a user is logged in and site is reloaded, the user (and isAuthenticated) are set to default(null).
     //this function also runs in parallel when site is reloaded, here it is used to extract information of logged in user. so in this way, this function sets the state according to logged in/logged out user.
     
-    
+    //alternative is componentDidMount... in class components
     useEffect(() => {
         store.dispatch(loadUser());
       }, []);
@@ -39,9 +39,9 @@ const App= ()=> {
       
     <Provider store={store}>
     <BrowserRouter>
-      <div>
       <Navbar/>
       <Route exact path="/" component={Landing} />
+      
       <div className="container">
       <Alert/>
       <Switch>
@@ -57,10 +57,9 @@ const App= ()=> {
       <PrivateRoute exact path='/add-education' component={AddEducation} />
       <PrivateRoute exact path="/posts" component={Posts} />
       <Route exact path="/posts/:id" component={Post} />
-      
       </Switch>
       </div>
-      </div>
+    
     </BrowserRouter>
     </Provider>
   );

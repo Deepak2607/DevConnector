@@ -16,7 +16,7 @@ const CommentItem = (props) =>{
               <div key={comment._id} className='post bg-white p-1 my-1'>
 
                 <div>
-                  <Link to="">
+                  <Link to={`/profile/${comment.user}`}>
                     <img className='round-img' src={comment.avatar} alt='' />
                     <h4>{comment.name}</h4>
                   </Link>

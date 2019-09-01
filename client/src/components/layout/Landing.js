@@ -14,8 +14,7 @@ const Landing= (props)=> {
     }
    
     return(
-        <div>
-        <section className="landing">
+        <div className="landing">
           <div className="dark-overlay">
             <div className="landing-inner">
               <h1 className="x-large">Developer Connector</h1>
@@ -29,7 +28,6 @@ const Landing= (props)=> {
               </div>
             </div>
           </div>
-        </section>
         </div>
 )}
 

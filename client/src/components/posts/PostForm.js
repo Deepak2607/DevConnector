@@ -32,9 +32,6 @@ class PostForm extends Component{
         })
     }
     
-    
-    
-    
     render(){
         return(
 
