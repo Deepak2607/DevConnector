@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { getCurrentProfile,  editProfile } from "../../actions/profile";
 
 
-
-
-
 class EditProfile extends Component{
       
     constructor(){

@@ -57,7 +57,7 @@ class Dashboard extends Component{
               <i className='fas fa-user' /> Welcome {this.props.user && this.props.user.name}
               </p>
 
-              {!this.props.loading && this.props.profile !== null ? (
+              {this.props.profile !== null ? (
                 <div>
                   <DashboardActions />
                   <Experience experience={this.props.profile.experience} />

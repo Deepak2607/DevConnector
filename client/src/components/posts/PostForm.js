@@ -22,6 +22,11 @@ class PostForm extends Component{
     onSubmit=(event)=> {
         event.preventDefault();
         
+        if(!this.state.text){
+            alert("Post can't be empty.");
+            return;
+        }
+        
         const formData= {
             text:this.state.text
         }

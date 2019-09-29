@@ -1,25 +1,24 @@
-isAuthenticated and isNotAuthenticated middlewares
+/// isAuthenticated and isNotAuthenticated middlewares
 
-apply validations in routes
+/// apply validations in routes
 
-add comments for all routes and wherever required
+// add comments for all routes and wherever required
 
 show profile data in EditProfile, check it after completing, CreateProfile also
 
-when move to create-profile (or any link when a user is authenticated) via url, redirected to dashboard
-you know the reason...but not solution
+// when move to create-profile (or any link when a user is authenticated) via url, redirected to dashboard, you know the reason...but not solution
 
-don't want to user windows.reload() to delete profile
+don't want to use windows.reload() to delete profile
 
 like button fill and blank (used in old version.. see in code)
 
-add links in PostItem
+// add links in PostItem
 
-unable to access props.match.params.id in Post Route when i make it PrivateRoute
+// unable to access props.match.params.id in Post Route when i make it PrivateRoute
 
-download code of old tutorial of the same and try to solve above problems
+// download code of old tutorial of the same and try to solve above problems
 
-props.posts.map is not a function..in PostItem.js
+// props.posts.map is not a function..in PostItem.js
 solution is delaying
 
 white space in landing page

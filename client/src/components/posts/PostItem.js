@@ -9,9 +9,13 @@ import { updateLikes, deletePost} from '../../actions/post';
 const PostItem= (props)=> {
     
     
-//    console.log(props.user._id);
+    console.log(props.user);
   
     return(
+        
+        <div>
+        
+        {(props.posts.length==0) ? <div>No Posts</div> : (
     
         <div className="posts">
             
@@ -59,6 +63,8 @@ const PostItem= (props)=> {
             })}
 
         
+        </div>
+        )}
         </div>
     )
 }

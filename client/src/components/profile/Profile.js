@@ -42,10 +42,14 @@ class Profile extends Component{
       if(this.state.render==false){
           return <div>loading...</div>
       }
+      
+      if(!this.props.profile ){
+          return <div>User has not created profile...</div>
+      }
         
       return (
         <div>
-          {(!this.props.profile || this.props.loading ) ? <div>loading...</div> :
+          {(this.props.loading ) ? <div>loading...</div> :
 
            (
                <div>

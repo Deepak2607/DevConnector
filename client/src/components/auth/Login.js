@@ -73,7 +73,7 @@ render(){
     console.log(this.props.user);
     
     if (this.props.isAuthenticated){
-        return <Redirect to='/posts' />;
+        return <Redirect to='/dashboard' />;
     }
     
     

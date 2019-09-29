@@ -29,7 +29,9 @@ const post_reducer=(state=initialState, action)=> {
             return{
                 ...state,
                 loading:false,
-                posts:action.data,
+                error:action.data,
+                posts:[],
+                post:null
             }
        case UPDATE_LIKES:
             
