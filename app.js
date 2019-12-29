@@ -20,7 +20,7 @@ const PORT= process.env.PORT || 8000;
 
 //mongoose-driver
 mongoose.Promise= global.Promise;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/DevConnector',{ useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }).then((db)=> {
+mongoose.connect('mongodb://devconnector:Deepak_2607@ds039088.mlab.com:39088/devconnector',{ useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }).then((db)=> {
     console.log('MONGO connected');
 }).catch((error)=> {
     console.log("error");

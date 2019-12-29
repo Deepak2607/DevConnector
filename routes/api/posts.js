@@ -129,7 +129,7 @@ router.put('/likes/:id',isAuthenticated,(req,res)=> {
                 flag=1;
             }
         })
-          
+        
         //if not..then add (below is the way to add an element in an array...remember)
         if(flag==0){
             post.likes.unshift({user:req.user.id});

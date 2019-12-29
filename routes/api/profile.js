@@ -23,7 +23,7 @@ const isAuthenticated= (req,res,next)=> {
 }
 
 
-//remember how to populate..any why populate
+//remember how to populate..and why populate
 //getting all profiles
 //actual data in profiles collection is same (i.e. user is userId), it is populated here to get user information also, but there will be no any change in profiles collection, it will remain same..(user-> userId)
 router.get('/',(req,res)=> {
@@ -240,11 +240,11 @@ router.put('/edit_profile',isAuthenticated,(req,res)=>{
     
     Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{new:true}).populate('user').then((profile)=> {
         
-        res.send(profile);
-        }).catch(err=>{
-            console.log(err);
-            res.status(500).send("Server error");
-        }) 
+      res.send(profile);
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).send("Server error");
+    }) 
 
 })
 

@@ -4,13 +4,9 @@
 
 // add comments for all routes and wherever required
 
-show profile data in EditProfile, check it after completing, CreateProfile also
-
 // when move to create-profile (or any link when a user is authenticated) via url, redirected to dashboard, you know the reason...but not solution
 
-don't want to use windows.reload() to delete profile
-
-like button fill and blank (used in old version.. see in code)
+// don't want to use windows.reload() to delete profile
 
 // add links in PostItem
 
@@ -20,6 +16,8 @@ like button fill and blank (used in old version.. see in code)
 
 // props.posts.map is not a function..in PostItem.js
 solution is delaying
+
+show profile data in EditProfile, check it after completing, CreateProfile also
 
 white space in landing page
 
