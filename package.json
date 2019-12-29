@@ -30,9 +30,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "redux-persist": "^5.10.0",
-    "request": "^2.88.0"
-  },
-  "devDependencies": {
+    "request": "^2.88.0",
     "concurrently": "^4.1.2"
   }
 }
