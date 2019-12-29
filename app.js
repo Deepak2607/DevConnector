@@ -20,7 +20,7 @@ const PORT= process.env.PORT || 8000;
 
 //mongoose-driver
 mongoose.Promise= global.Promise;
-mongoose.connect('mongodb://devconnector:Deepak_2607@ds039088.mlab.com:39088/devconnector',{ useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }).then((db)=> {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/devconnector',{ useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }).then((db)=> {
     console.log('MONGO connected');
 }).catch((error)=> {
     console.log("error");
@@ -28,6 +28,11 @@ mongoose.connect('mongodb://devconnector:Deepak_2607@ds039088.mlab.com:39088/dev
 
 //
 //app.use(express.static(path.join(__dirname, 'public')));
+
+
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "client", "build")))
+
 
 //
 ////upload-middleware
@@ -77,6 +82,12 @@ app.use('/users',users);
 app.use('/auth',auth);
 app.use('/posts',posts);
 app.use('/profiles',profile);
+
+
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 
 app.listen(PORT, ()=> {
